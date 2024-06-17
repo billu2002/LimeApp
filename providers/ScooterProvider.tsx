@@ -1,10 +1,11 @@
+import getDistance from '@turf/distance';
 import { point } from '@turf/helpers';
 import * as Location from 'expo-location';
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
 import { getDirections } from '~/services/directions';
-import getDistance from '@turf/distance';
-// Define the types for the state variables
+
 type Scooter = {
+  id: string;
   long: number;
   lat: number;
 };
@@ -19,7 +20,17 @@ type Direction = {
   }[];
 } | null;
 
-const ScooterContext = createContext({});
+type ScooterContextType = {
+  selectedScooter: Scooter | undefined;
+  setSelectedScooter: (scooter: Scooter | undefined) => void;
+  direction: Direction;
+  directionCoordinates: [number, number][] | undefined;
+  duration: number | undefined;
+  distance: number | undefined;
+  isNearby: boolean;
+};
+
+const ScooterContext = createContext<ScooterContextType | undefined>(undefined);
 
 export default function ScooterProvider({ children }: PropsWithChildren) {
   const [selectedScooter, setSelectedScooter] = useState<Scooter | undefined>(undefined);
@@ -83,4 +94,10 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
   );
 }
 
-export const useScooter = () => useContext(ScooterContext);
+export const useScooter = () => {
+  const context = useContext(ScooterContext);
+  if (!context) {
+    throw new Error('useScooter must be used within a ScooterProvider');
+  }
+  return context;
+};

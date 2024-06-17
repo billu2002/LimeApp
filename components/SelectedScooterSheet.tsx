@@ -8,7 +8,6 @@ import { Button } from './Button';
 
 const SelectedScooterSheet = () => {
   const { selectedScooter, duration, distance, isNearby } = useScooter();
-  // console.log(selectedScooter?.id);
   const BottomSheetRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ const SelectedScooterSheet = () => {
       index={-1}
       snapPoints={[200]}
       backgroundStyle={{ backgroundColor: '#414442' }}
-      //   enableDynamicSizing={true}
       enablePanDownToClose>
       {selectedScooter && (
         <BottomSheetView style={{ flex: 1, padding: 10, gap: 20 }}>
@@ -45,7 +43,7 @@ const SelectedScooterSheet = () => {
                 }}>
                 <FontAwesome6 name="flag-checkered" size={18} color="#42E100" />
                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>
-                  {(distance / 1000).toFixed(1)} km
+                  {(distance! / 1000).toFixed(1)} km
                 </Text>
               </View>
               <View
@@ -57,7 +55,7 @@ const SelectedScooterSheet = () => {
                 }}>
                 <FontAwesome6 name="clock" size={18} color="#42E100" />
                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14 }}>
-                  {(duration / 60).toFixed(1)} min
+                  {(duration! / 60).toFixed(1)} min
                 </Text>
               </View>
             </View>
